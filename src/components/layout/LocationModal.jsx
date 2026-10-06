@@ -5,18 +5,16 @@ import { useToast } from '../../context/ToastContext'
 import { ICONS } from '../../constants/icons'
 
 const POPULAR_LOCALITIES = [
-  'T. Nagar',
-  'Adyar',
-  'Anna Nagar',
-  'Velachery',
-  'OMR',
-  'Mylapore',
-  'Tambaram',
-  'Besant Nagar',
-  'Porur',
-  'Guindy',
-  'Nungambakkam',
-  'Kilpauk',
+  'Rajapalayam Town',
+  'PACR Salai',
+  'Tenkasi Road',
+  'Sankarankovil Road',
+  'Chattrapatti',
+  'Alagapuri',
+  'Samusigapuram',
+  'Seithur',
+  'Chettiarpatti',
+  'Ayyanar Kovil Road',
 ]
 
 export const LocationModal = () => {
@@ -47,6 +45,7 @@ export const LocationModal = () => {
         <button className="modal-close" onClick={closeLocationPicker} aria-label="Close">
           ✕
         </button>
+
         <h2 style={{ fontSize: '22px', fontWeight: 800, marginBottom: '6px' }}>
           {t('selectLocation', 'Select Celebration Location')}
         </h2>
@@ -59,7 +58,7 @@ export const LocationModal = () => {
             <input
               type="text"
               className="form-control"
-              placeholder={t('locationPlaceholder', 'Enter city or area (e.g. T. Nagar, Chennai)')}
+              placeholder={t('locationPlaceholder', 'Enter city or area (e.g. PACR Salai, Rajapalayam)')}
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
               autoFocus
@@ -71,7 +70,7 @@ export const LocationModal = () => {
         </form>
 
         <div style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--muted)', letterSpacing: '0.05em', marginBottom: '12px' }}>
-          {t('popularAreas', 'Popular Chennai Localities')}
+          {t('popularAreas', 'Popular Rajapalayam Areas')}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {POPULAR_LOCALITIES.map((loc) => {

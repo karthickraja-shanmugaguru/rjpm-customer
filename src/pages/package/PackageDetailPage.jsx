@@ -248,16 +248,18 @@ export const PackageDetailPage = () => {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-                gap: 14,
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 130px), 1fr))',
+                gap: 12,
                 marginTop: 20,
-                padding: 18,
+                padding: '14px 14px',
                 background: '#f8fafc',
                 borderRadius: 16,
                 border: '1px solid #e2e8f0',
+                width: '100%',
+                boxSizing: 'border-box',
               }}
             >
-              <div>
+              <div style={{ minWidth: 0 }}>
                 <span style={{ fontSize: 12, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
                   <Users size={14} color="var(--primary)" /> {t('guestCapacity', 'Guest Capacity')}
                 </span>
@@ -326,7 +328,7 @@ export const PackageDetailPage = () => {
                 <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)' }}>({inclusionsList.length} items)</span>
               </h2>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 10 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 10 }}>
                 {inclusionsList.map((item, idx) => (
                   <div
                     key={idx}

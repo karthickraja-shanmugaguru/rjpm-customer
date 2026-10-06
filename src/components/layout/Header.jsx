@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLocation } from '../../context/LocationContext'
 import { useFavorites } from '../../context/FavoritesContext'
 import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
@@ -9,7 +8,6 @@ import { ICONS } from '../../constants/icons'
 
 export const Header = () => {
   const navigate = useNavigate()
-  const { location, openLocationPicker } = useLocation()
   const { favoriteCount } = useFavorites()
   const { user, isAuthenticated } = useAuth()
   const { showToast } = useToast()
@@ -32,18 +30,6 @@ export const Header = () => {
           <div className="logo-icon">{ICONS.logo(40)}</div>
           <span>rjpm.in</span>
         </Link>
-
-        <button
-          type="button"
-          className="location-selector"
-          onClick={openLocationPicker}
-          title="Select celebration location"
-        >
-          <span className="pin-icon">{ICONS.mapPin(18, 'var(--primary)')}</span>
-          <span>
-            <strong>{location}</strong> &middot; {t('changeLocation', 'Change')}
-          </span>
-        </button>
 
         <div className="header-search">
           <span className="search-icon">{ICONS.search(18, 'var(--muted)')}</span>
@@ -108,7 +94,7 @@ export const Header = () => {
           </div>
 
           <a
-            href={import.meta.env.VITE_PROVIDER_URL || 'http://localhost:3001'}
+            href={import.meta.env.VITE_PROVIDER_URL || 'https://rjpm-partner.netlify.app'}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost header-desktop-only"

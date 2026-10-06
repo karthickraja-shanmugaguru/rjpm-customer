@@ -313,7 +313,7 @@ export const BookingsPage = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text-2)' }}>
                     <MapPin size={16} color="var(--primary)" />
                     <span>
-                      Venue: <strong>{b.venueCity || 'Chennai'}</strong>
+                      Venue: <strong>{b.venueCity || 'Rajapalayam'}</strong>
                     </span>
                   </div>
                 </div>

@@ -294,7 +294,7 @@ export const LabourDetailPage = () => {
           {/* Shift Guidelines */}
           <div className="card" style={{ marginTop: 20 }}>
             <h2 className="card-title">{t('shiftGuidelines', 'Shift & Booking Guidelines')}</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginTop: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 16, marginTop: 12 }}>
               <div style={{ padding: 14, background: '#f8fafc', borderRadius: 12 }}>
                 <span style={{ fontSize: 12, color: 'var(--muted)', display: 'block' }}>{t('standardShift', 'Standard Shift')}</span>
                 <strong style={{ fontSize: 15, color: 'var(--text)' }}>{t('standardShiftVal', '8 Hours Duration')}</strong>

@@ -4,7 +4,7 @@ const LocationContext = createContext(null)
 
 export const LocationProvider = ({ children }) => {
   const [location, setLocation] = useState(() => {
-    return localStorage.getItem('evently_customer_location') || 'Chennai'
+    return localStorage.getItem('evently_customer_location') || 'Rajapalayam'
   })
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false)
 

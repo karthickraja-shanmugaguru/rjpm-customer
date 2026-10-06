@@ -63,7 +63,7 @@ export const LabourCard = ({ item, onBook }) => {
                 )}
               </div>
               <div style={{ fontSize: 13, color: 'var(--muted, #5f6368)', marginTop: 2 }}>
-                By {item.providerName || 'HelpingHands Staffing'} &middot; {item.city || 'Chennai'}
+                By {item.providerName || 'HelpingHands Staffing'} &middot; {item.city || 'Rajapalayam'}
               </div>
             </div>
           </div>

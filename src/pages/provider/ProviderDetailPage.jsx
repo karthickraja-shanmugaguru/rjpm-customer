@@ -335,7 +335,7 @@ export const ProviderDetailPage = () => {
               </div>
 
               {/* Provider Info Row - cleanly on the white card background */}
-              <div style={{ padding: '0 28px 24px', display: 'flex', alignItems: 'flex-start', gap: 22, flexWrap: 'wrap', position: 'relative' }}>
+              <div className="provider-hero-card-body">
                 <div
                   className="provider-avatar"
                   style={{
@@ -364,7 +364,7 @@ export const ProviderDetailPage = () => {
                   )}
                 </div>
 
-                <div className="provider-main-info" style={{ flex: 1, minWidth: 260, paddingTop: 14 }}>
+                <div className="provider-main-info" style={{ flex: 1, minWidth: 0, paddingTop: 14 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <h1 id="providerName" className="provider-name-large" style={{ margin: 0, color: '#1e293b', fontSize: 28, fontWeight: 800 }}>
                       {provider.businessName}
@@ -384,7 +384,7 @@ export const ProviderDetailPage = () => {
                       {ICONS.verifiedBadge(14)} {provider.verified ? t('verifiedProvider', 'Verified Provider') : t('registeredProvider', 'Registered Provider')}
                     </span>
                     <span>&middot;</span>
-                    <span>{provider.location || provider.city || (language === 'ta' ? 'சென்னை' : 'Chennai')}</span>
+                    <span>{provider.location || provider.city || (language === 'ta' ? 'ராஜபாளையம்' : 'Rajapalayam')}</span>
                     <span>&middot;</span>
                     <span>{exp} {t('yearsExperience', 'experience')}</span>
                     <span>&middot;</span>
@@ -408,44 +408,55 @@ export const ProviderDetailPage = () => {
                         <span>{t('noRatingsYet', 'No ratings yet')}</span>
                       </span>
                     )}
-
-                    {/* Quick Social Badges in Hero */}
-                    {activeSocialLinks.length > 0 && (
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginLeft: 10 }}>
-                        {activeSocialLinks.map(({ platform, url }) => {
-                          const meta = SOCIAL_PLATFORMS[platform] || SOCIAL_PLATFORMS['other']
-                          return (
-                            <a
-                              key={platform}
-                              href={url.startsWith('http') ? url : `https://${url}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: 6,
-                                padding: '3px 10px',
-                                borderRadius: 16,
-                                background: meta.bg,
-                                border: `1px solid ${meta.borderColor}`,
-                                textDecoration: 'none',
-                                fontSize: 11,
-                                fontWeight: 700,
-                                color: meta.color,
-                                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-                                transition: 'all 0.15s ease',
-                              }}
-                              title={`Open ${meta.name} profile`}
-                            >
-                              {meta.icon}
-                              <span>{meta.name}</span>
-                              <ExternalLink size={10} />
-                            </a>
-                          )
-                        })}
-                      </div>
-                    )}
                   </div>
+
+                  {/* Quick Social Badges in Hero */}
+                  {activeSocialLinks.length > 0 && (
+                    <div
+                      className="provider-social-badges"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        flexWrap: 'wrap',
+                        marginTop: 10,
+                        width: '100%',
+                      }}
+                    >
+                      {activeSocialLinks.map(({ platform, url }) => {
+                        const meta = SOCIAL_PLATFORMS[platform] || SOCIAL_PLATFORMS['other']
+                        return (
+                          <a
+                            key={platform}
+                            href={url.startsWith('http') ? url : `https://${url}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 6,
+                              padding: '4px 10px',
+                              borderRadius: 16,
+                              background: meta.bg,
+                              border: `1px solid ${meta.borderColor}`,
+                              textDecoration: 'none',
+                              fontSize: 11.5,
+                              fontWeight: 700,
+                              color: meta.color,
+                              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                              transition: 'all 0.15s ease',
+                              whiteSpace: 'nowrap',
+                            }}
+                            title={`Open ${meta.name} profile`}
+                          >
+                            {meta.icon}
+                            <span>{meta.name}</span>
+                            <ExternalLink size={10} />
+                          </a>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
 
                 <div className="provider-actions" style={{ marginLeft: 'auto', paddingTop: 14, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -487,7 +498,7 @@ export const ProviderDetailPage = () => {
             <p id="providerAbout" style={{ color: 'var(--muted)', lineHeight: 1.7, fontSize: 14 }}>
               {provider.about || (language === 'ta'
                 ? `${provider.businessName} ${t('defaultAbout')}`
-                : `${provider.businessName} is one of Chennai's premier event specialists with extensive experience in weddings, receptions, and corporate celebrations. Renowned for authentic flavours, hygienic execution, stunning thematic decor, and courteous hospitality staff.`)}
+                : `${provider.businessName} is one of Rajapalayam's premier event specialists with extensive experience in weddings, receptions, and corporate celebrations. Renowned for authentic flavours, hygienic execution, stunning thematic decor, and courteous hospitality staff.`)}
             </p>
 
             {/* Official Social Links in About Card */}
@@ -562,7 +573,7 @@ export const ProviderDetailPage = () => {
               {filteredServices.length === 0 ? (
                 <p style={{ color: 'var(--muted)', padding: '20px 0' }}>{t('noServicesCategory', 'No services in this category.')}</p>
               ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 20 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 20 }}>
                   {filteredServices.map((svc) => (
                     <ServiceCard
                       key={svc.id}
@@ -582,7 +593,7 @@ export const ProviderDetailPage = () => {
                   {t('curatedPackagesCount', 'Curated Packages')} ({packages.length})
                 </h2>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: 16, marginTop: 16 }}>
                 {packages.map((pkg) => (
                   <PackageCard key={pkg.id} pkg={pkg} />
                 ))}

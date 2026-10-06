@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useLocation } from '../../context/LocationContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { ICONS, ILLUSTRATIONS } from '../../constants/icons'
 import { Sparkles } from 'lucide-react'
 
 export const Hero = ({ onOpenSmartFilter }) => {
   const navigate = useNavigate()
-  const { location, openLocationPicker } = useLocation()
   const { language, t } = useLanguage()
   const [query, setQuery] = useState('')
 
@@ -28,34 +26,20 @@ export const Hero = ({ onOpenSmartFilter }) => {
           {t('heroSubtitle', 'Find catering, decoration, photography, mehendi, jewellery, music and everything else you need — all from verified local providers.')}
         </p>
 
-        <div className="hero-search">
-          <button
-            type="button"
-            className="hero-location"
-            onClick={openLocationPicker}
-            title="Change celebration location"
-          >
-            <span className="location-pin">{ICONS.mapPin(22, 'var(--primary)')}</span>
-            <span className="hero-location-text">
-              <strong>{location}</strong>
-              <small>{t('eventLocation', 'Event location')}</small>
-            </span>
-            <span className="location-chevron">{ICONS.chevronDown(18, 'var(--muted)')}</span>
+        <form onSubmit={handleSearch} className="hero-search">
+          <span className="hero-search-icon" style={{ display: 'flex', alignItems: 'center', color: 'var(--muted)', flexShrink: 0 }}>
+            {ICONS.search(20, 'var(--muted)')}
+          </span>
+          <input
+            type="text"
+            placeholder={t('searchPlaceholder', 'Search catering, decoration, photography, packages...')}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button type="submit" className="btn btn-primary">
+            {t('searchBtn', 'Search')}
           </button>
-
-          <form onSubmit={handleSearch} className="hero-search-box">
-            <span className="hero-search-icon">{ICONS.search(20, 'var(--muted)')}</span>
-            <input
-              type="text"
-              placeholder={t('searchPlaceholder', 'Search catering, decoration, packages...')}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button type="submit" className="btn btn-primary">
-              {t('searchBtn', 'Search')}
-            </button>
-          </form>
-        </div>
+        </form>
 
         {/* Home Page Smart Filter Trigger */}
         {onOpenSmartFilter && (

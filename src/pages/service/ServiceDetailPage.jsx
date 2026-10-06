@@ -454,7 +454,7 @@ export const ServiceDetailPage = () => {
               <h2 className="card-title" style={{ fontSize: 18, marginBottom: 14 }}>
                 {language === 'ta' ? 'கால அவகாசம் & விதிமுறைகள்' : 'Timing & Policies'}
               </h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 14 }}>
                 {service.duration && (
                   <div style={{ padding: '12px 14px', background: '#f8fafc', borderRadius: 12, border: '1px solid #e2e8f0' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>
@@ -531,7 +531,7 @@ export const ServiceDetailPage = () => {
               )}
 
               {/* Grid of Social Channels */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 12 }}>
                 {activeSocialLinks.map((item, idx) => {
                   const meta = getPlatformMeta(item.platform)
                   return (

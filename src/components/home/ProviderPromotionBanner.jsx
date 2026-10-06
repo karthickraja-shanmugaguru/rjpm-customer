@@ -15,8 +15,8 @@ import {
 export const ProviderPromotionBanner = () => {
   const { language } = useLanguage()
 
-  // Support environment variable or default to local provider portal
-  const providerBaseUrl = import.meta.env.VITE_PROVIDER_URL || 'http://localhost:3001'
+  // Support environment variable or default to production partner portal
+  const providerBaseUrl = import.meta.env.VITE_PROVIDER_URL || 'https://rjpm-partner.netlify.app'
   const signupUrl = `${providerBaseUrl}/signup`
   const loginUrl = `${providerBaseUrl}/login`
 

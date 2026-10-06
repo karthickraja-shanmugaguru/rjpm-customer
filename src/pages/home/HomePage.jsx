@@ -14,7 +14,6 @@ import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
 import { ProviderPromotionBanner } from '../../components/home/ProviderPromotionBanner'
 
 export const HomePage = () => {
-  const { location } = useLocation()
   const [packages, setPackages] = useState([])
   const [providers, setProviders] = useState([])
   const [services, setServices] = useState([])
@@ -33,9 +32,9 @@ export const HomePage = () => {
       try {
         const [pkgRes, provRes, catRes, svcRes] = await Promise.allSettled([
           packageService.getPackages(),
-          providerService.getProviders({ city: location }),
+          providerService.getProviders(),
           categoryService.getCategories(),
-          serviceService.getServices({ city: location }),
+          serviceService.getServices(),
         ])
 
         if (!isMounted) return
@@ -73,7 +72,7 @@ export const HomePage = () => {
     return () => {
       isMounted = false
     }
-  }, [location])
+  }, [])
 
   return (
     <section id="home" className="screen active">

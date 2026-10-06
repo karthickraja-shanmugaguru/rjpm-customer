@@ -147,7 +147,7 @@ export const ImageGalleryViewer = ({
   const currentImg = validImages[currentIndex] || validImages[0]
 
   return (
-    <div style={{ width: '100%', maxWidth: 480, margin: '0 auto' }}>
+    <div style={{ width: '100%', maxWidth: 480, margin: '0 auto', boxSizing: 'border-box' }}>
       {/* Main Interactive Stage */}
       <div
         style={{
@@ -438,7 +438,7 @@ export const ImageGalleryViewer = ({
                 aria-label="Scroll left"
                 style={{
                   position: 'absolute',
-                  left: -10,
+                  left: 2,
                   zIndex: 4,
                   width: 28,
                   height: 28,
@@ -517,7 +517,7 @@ export const ImageGalleryViewer = ({
                 aria-label="Scroll right"
                 style={{
                   position: 'absolute',
-                  right: -10,
+                  right: 2,
                   zIndex: 4,
                   width: 28,
                   height: 28,

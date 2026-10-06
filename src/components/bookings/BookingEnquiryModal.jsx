@@ -14,7 +14,7 @@ export const BookingEnquiryModal = ({ isOpen, onClose, targetItem, type = 'servi
     eventType: 'Wedding',
     eventDate: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0],
     guestCount: 150,
-    venueCity: 'Chennai',
+    venueCity: 'Rajapalayam',
     venueAddress: '',
     customerName: user?.name || '',
     customerPhone: user?.phone || '',
@@ -237,7 +237,7 @@ export const BookingEnquiryModal = ({ isOpen, onClose, targetItem, type = 'servi
                   value={formData.venueCity}
                   onChange={handleChange}
                   required
-                  placeholder="e.g. T. Nagar, Chennai"
+                  placeholder="e.g. Tenkasi Road, Rajapalayam"
                   style={{
                     width: '100%',
                     padding: '8px 12px',
