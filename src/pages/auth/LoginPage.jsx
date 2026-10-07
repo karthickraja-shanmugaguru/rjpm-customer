@@ -33,6 +33,16 @@ export const LoginPage = () => {
     navigate(from, { replace: true })
   }
 
+  const formatErrorMessage = (err, defaultMsg) => {
+    if (err?.code === 'ECONNABORTED' || err?.message?.toLowerCase().includes('timeout')) {
+      return 'The server was waking up from idle. Please tap Sign In again now.'
+    }
+    if (err?.message === 'Network Error' || (!err?.response && !err?.status)) {
+      return 'Server is currently connecting. Please wait a few seconds and try again.'
+    }
+    return err?.response?.data?.message || err?.message || defaultMsg
+  }
+
   // Sign In handler: Mobile number only
   const handleSignIn = async (e) => {
     e.preventDefault()
@@ -51,7 +61,7 @@ export const LoginPage = () => {
       showToast(`Welcome back, ${userName}!`)
       redirectAfterLogin()
     } catch (err) {
-      setError(err?.response?.data?.message || err?.message || 'Sign in failed. Please try again.')
+      setError(formatErrorMessage(err, 'Sign in failed. Please try again.'))
     } finally {
       setLoading(false)
     }
@@ -91,7 +101,7 @@ export const LoginPage = () => {
 
       redirectAfterLogin()
     } catch (err) {
-      setError(err?.response?.data?.message || err?.message || 'Sign up failed. Please try again.')
+      setError(formatErrorMessage(err, 'Sign up failed. Please try again.'))
     } finally {
       setLoading(false)
     }
