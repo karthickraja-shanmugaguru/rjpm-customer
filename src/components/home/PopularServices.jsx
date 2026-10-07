@@ -6,13 +6,13 @@ import { useLanguage } from '../../context/LanguageContext'
 
 const FEATURED_CATEGORIES = [
   'Catering',
-  'Decoration',
-  'Photography',
-  'Mehendi',
-  'Jewellery',
   'Mandapam',
-  'Music & DJ',
-  'Makeup',
+  'Panthal & Tent',
+  'Decoration',
+  'Muhurtham Malai',
+  'Flowers',
+  'Nadaswaram',
+  'Photography',
 ]
 
 export const PopularServices = ({ categories = [] }) => {
