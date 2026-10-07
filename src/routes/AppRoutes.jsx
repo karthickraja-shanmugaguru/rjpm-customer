@@ -28,7 +28,7 @@ export const AppRoutes = () => {
         <Route path="/labour" element={<LabourPage />} />
         <Route path="/labour/:id" element={<LabourDetailPage />} />
         <Route path="/providers/:id" element={<ProviderDetailPage />} />
-        <Route path="/bookings" element={<Navigate to="/" replace />} />
+        <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />

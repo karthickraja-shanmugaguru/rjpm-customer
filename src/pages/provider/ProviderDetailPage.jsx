@@ -260,7 +260,8 @@ export const ProviderDetailPage = () => {
 
   const handleWhatsApp = () => {
     const phone = provider.whatsapp || provider.phone || '919876543210'
-    const cleanPhone = phone.replace(/[^0-9]/g, '')
+    let cleanPhone = phone.replace(/[^0-9]/g, '')
+    if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone
     const msg = encodeURIComponent(`Hi ${provider.businessName}, I found your profile on rjpm.in and would like to enquire about your event services.`)
     window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank')
   }

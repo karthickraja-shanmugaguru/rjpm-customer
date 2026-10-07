@@ -68,9 +68,6 @@ export const BookingEnquiryModal = ({ isOpen, onClose, targetItem, type = 'servi
       setTimeout(() => {
         setSuccess(false)
         onClose()
-        if (isAuthenticated) {
-          navigate('/bookings')
-        }
       }, 1800)
     } catch (err) {
       setError(err?.response?.data?.message || err?.message || 'Failed to submit enquiry. Please try again.')

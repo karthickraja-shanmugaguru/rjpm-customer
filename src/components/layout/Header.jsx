@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useFavorites } from '../../context/FavoritesContext'
 import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
@@ -30,6 +30,19 @@ export const Header = () => {
           <div className="logo-icon">{ICONS.logo(40)}</div>
           <span>rjpm.in</span>
         </Link>
+
+        {/* Desktop Navigation Links */}
+        <nav className="header-nav header-desktop-only">
+          <NavLink to="/explore" className={({ isActive }) => `header-nav-link ${isActive ? 'active' : ''}`}>
+            {language === 'ta' ? 'சேவைகள்' : 'Services'}
+          </NavLink>
+          <NavLink to="/packages" className={({ isActive }) => `header-nav-link ${isActive ? 'active' : ''}`}>
+            {language === 'ta' ? 'தொகுப்புகள்' : 'Packages'}
+          </NavLink>
+          <NavLink to="/labour" className={({ isActive }) => `header-nav-link ${isActive ? 'active' : ''}`}>
+            {language === 'ta' ? 'ஆட்கள்' : 'Labour'}
+          </NavLink>
+        </nav>
 
         <div className="header-search">
           <span className="search-icon">{ICONS.search(18, 'var(--muted)')}</span>

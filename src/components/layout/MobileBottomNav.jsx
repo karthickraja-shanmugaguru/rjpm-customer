@@ -30,6 +30,7 @@ export const MobileBottomNav = () => {
         <span>{t('navExplore', 'Explore')}</span>
       </NavLink>
 
+
       <NavLink
         to="/favorites"
         onClick={(e) => {
@@ -44,7 +45,6 @@ export const MobileBottomNav = () => {
         <span className="nav-icon">{ICONS.heart(22)}</span>
         <span>{t('navSaved', 'Saved')}</span>
       </NavLink>
-
 
       <NavLink
         to="/profile"

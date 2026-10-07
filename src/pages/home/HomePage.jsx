@@ -12,6 +12,7 @@ import { useLocation } from '../../context/LocationContext'
 import { SmartFilterModal } from '../../components/smart/SmartFilterModal'
 import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
 import { ProviderPromotionBanner } from '../../components/home/ProviderPromotionBanner'
+import { CategoryCarousel } from '../../components/home/CategoryCarousel'
 
 export const HomePage = () => {
   const [packages, setPackages] = useState([])
@@ -91,6 +92,7 @@ export const HomePage = () => {
 
       <DiscoveryCards />
       <PopularServices categories={categories} />
+      <CategoryCarousel />
       <PopularPackages packages={packages} loading={loading} />
       <PopularProviders providers={providers} loading={loading} />
 

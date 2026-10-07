@@ -259,6 +259,7 @@ const TRANSLATIONS = {
     navSaved: 'Saved',
     navBookings: 'Bookings',
     navProfile: 'Profile',
+    myBookings: 'My Bookings & Quotes',
 
     // Service Detail
     loadingService: 'Loading service specs...',
@@ -564,6 +565,7 @@ const TRANSLATIONS = {
     navSaved: 'சேமித்தவை',
     navBookings: 'முன்பதிவுகள்',
     navProfile: 'சுயவிவரம்',
+    myBookings: 'எனது முன்பதிவுகள்',
 
     // Service Detail
     loadingService: 'சேவை விவரங்கள் ஏற்றப்படுகின்றன...',

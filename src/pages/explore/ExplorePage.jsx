@@ -11,7 +11,7 @@ import { useLocation } from '../../context/LocationContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { SmartFilterModal } from '../../components/smart/SmartFilterModal'
 import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
-import { Search, SlidersHorizontal, AlertCircle, RefreshCw } from 'lucide-react'
+import { Search, SlidersHorizontal, AlertCircle, RefreshCw, MessageCircle } from 'lucide-react'
 
 export const ExplorePage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -25,7 +25,7 @@ export const ExplorePage = () => {
   const [activeCategory, setActiveCategory] = useState(currentCategory)
   const [searchQuery, setSearchQuery] = useState(initialSearch)
   const [activeFilter, setActiveFilter] = useState('near') // 'near', 'price', 'rating', 'verified'
-  const [viewType, setViewType] = useState(typeParam === 'services' ? 'services' : 'vendors')
+  const [viewType, setViewType] = useState(typeParam === 'vendors' ? 'vendors' : 'services')
 
   const [services, setServices] = useState([])
   const [providers, setProviders] = useState([])
@@ -42,6 +42,10 @@ export const ExplorePage = () => {
     setActiveCategory(cat)
     const q = searchParams.get('search') || ''
     setSearchQuery(q)
+    const tParam = searchParams.get('type') || searchParams.get('view')
+    if (tParam) {
+      setViewType(tParam === 'vendors' ? 'vendors' : 'services')
+    }
   }, [searchParams])
 
   const fetchData = async () => {
@@ -260,26 +264,48 @@ export const ExplorePage = () => {
               <div
                 style={{
                   textAlign: 'center',
-                  padding: '60px 20px',
+                  padding: '48px 24px',
                   background: '#fff',
-                  borderRadius: 16,
+                  borderRadius: 20,
                   border: '1px solid var(--border-light, #e2e8f0)',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+                  maxWidth: 560,
+                  margin: '20px auto',
                 }}
               >
-                <h3 style={{ fontSize: 17, fontWeight: 700, margin: '0 0 8px' }}>No services found</h3>
-                <p style={{ color: 'var(--muted)', fontSize: 14, margin: '0 0 20px' }}>
-                  No services match your active filters in {location}. Try resetting filters or switching category.
+                <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#eff6ff', color: 'var(--primary)', display: 'grid', placeItems: 'center', margin: '0 auto 16px' }}>
+                  <Search size={26} />
+                </div>
+                <h3 style={{ fontSize: 18, fontWeight: 800, margin: '0 0 8px', color: '#1e293b' }}>
+                  {language === 'ta' ? 'சேவைகள் எதுவும் கிடைக்கவில்லை' : `No ${activeCategory === 'All' ? '' : activeCategory} services found`}
+                </h3>
+                <p style={{ color: 'var(--muted)', fontSize: 14, margin: '0 0 22px', lineHeight: 1.5 }}>
+                  {language === 'ta'
+                    ? `${location}-ல் இந்த வடிகட்டிக்கு சேவைகள் இல்லை. வேறு பிரிவை தேர்வு செய்யவும் அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.`
+                    : `No verified services currently match your selection in ${location}. Try resetting your filters or exploring another category.`}
                 </p>
-                <button
-                  className="btn btn-outline"
-                  onClick={() => {
-                    handleCategorySelect('All')
-                    setSearchQuery('')
-                    setActiveFilter('near')
-                  }}
-                >
-                  Reset all filters
-                </button>
+                <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      handleCategorySelect('All')
+                      setSearchQuery('')
+                      setActiveFilter('near')
+                    }}
+                  >
+                    {language === 'ta' ? 'அனைத்து சேவைகளையும் பார்க்க' : 'View All Services'}
+                  </button>
+                  <a
+                    href="https://wa.me/919360226758?text=Hi%2C%20I%20am%20looking%20for%20event%20services%20in%20Rajapalayam."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline"
+                    style={{ borderColor: '#16a34a', color: '#16a34a', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                  >
+                    <MessageCircle size={16} />
+                    {language === 'ta' ? 'WhatsApp-ல் கேட்க' : 'Enquire on WhatsApp'}
+                  </a>
+                </div>
               </div>
             ) : (
               <div id="listingGrid" className="services-grid">
@@ -295,16 +321,48 @@ export const ExplorePage = () => {
             <div
               style={{
                 textAlign: 'center',
-                padding: '60px 20px',
+                padding: '48px 24px',
                 background: '#fff',
-                borderRadius: 16,
+                borderRadius: 20,
                 border: '1px solid var(--border-light, #e2e8f0)',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+                maxWidth: 560,
+                margin: '20px auto',
               }}
             >
-              <h3 style={{ fontSize: 17, fontWeight: 700, margin: '0 0 8px' }}>No providers found</h3>
-              <p style={{ color: 'var(--muted)', fontSize: 14, margin: '0 0 20px' }}>
-                No registered vendors found matching this criteria.
+              <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#eff6ff', color: 'var(--primary)', display: 'grid', placeItems: 'center', margin: '0 auto 16px' }}>
+                <Search size={26} />
+              </div>
+              <h3 style={{ fontSize: 18, fontWeight: 800, margin: '0 0 8px', color: '#1e293b' }}>
+                {language === 'ta' ? 'வழங்குநர்கள் கிடைக்கவில்லை' : `No ${activeCategory === 'All' ? '' : activeCategory} providers found`}
+              </h3>
+              <p style={{ color: 'var(--muted)', fontSize: 14, margin: '0 0 22px', lineHeight: 1.5 }}>
+                {language === 'ta'
+                  ? `இந்த பிரிவில் பதிவு செய்யப்பட்ட கலைஞர்கள்/வழங்குநர்கள் தற்போது இல்லை. பிற பிரிவுகளை ஆராய்க.`
+                  : `No registered vendors found matching this criteria in ${location}. Try viewing all providers or explore related categories.`}
               </p>
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    handleCategorySelect('All')
+                    setSearchQuery('')
+                    setActiveFilter('near')
+                  }}
+                >
+                  {language === 'ta' ? 'அனைத்து வழங்குநர்களையும் பார்க்க' : 'View All Providers'}
+                </button>
+                <a
+                  href="https://wa.me/919360226758?text=Hi%2C%20I%20am%20looking%20for%20event%20vendors%20in%20Rajapalayam."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-outline"
+                  style={{ borderColor: '#16a34a', color: '#16a34a', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                >
+                  <MessageCircle size={16} />
+                  {language === 'ta' ? 'WhatsApp-ல் கேட்க' : 'Enquire on WhatsApp'}
+                </a>
+              </div>
             </div>
           ) : (
             <div className="vendor-grid">

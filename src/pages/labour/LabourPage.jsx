@@ -251,6 +251,16 @@ export const LabourPage = () => {
               <div style={{ fontSize: 14 }}>
                 {language === 'ta' ? 'வேறு பிரிவைத் தேர்ந்தெடுக்கவும் அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.' : 'Try selecting another staff category or clearing filters.'}
               </div>
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: 14 }}
+                onClick={() => {
+                  setSelectedCategory('All Labour')
+                  setActiveFilter('')
+                }}
+              >
+                {language === 'ta' ? 'அனைத்து ஊழியர்களையும் காண்க' : 'View All Staff'}
+              </button>
             </div>
           ) : (
             <div className="package-list-grid">

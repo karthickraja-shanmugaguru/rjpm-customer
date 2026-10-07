@@ -518,6 +518,16 @@ export const PackagesPage = () => {
               <div style={{ fontSize: 14 }}>
                 {language === 'ta' ? 'வேறு பிரிவைத் தேர்ந்தெடுக்கவும் அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.' : 'Try selecting another package category or clearing filters.'}
               </div>
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: 14 }}
+                onClick={() => {
+                  setSelectedCategory('All Packages')
+                  setActiveFilter('')
+                }}
+              >
+                {language === 'ta' ? 'அனைத்து தொகுப்புகளையும் காண்க' : 'View All Packages'}
+              </button>
             </div>
           ) : (
             <div className="package-list-grid">
