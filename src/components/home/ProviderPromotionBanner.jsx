@@ -11,12 +11,13 @@ import {
   Store,
   CheckCircle2,
 } from 'lucide-react'
+import { getPartnerBaseUrl } from '../../utils/urlUtils'
 
 export const ProviderPromotionBanner = () => {
   const { language } = useLanguage()
 
-  // Support environment variable or default to production partner portal
-  const providerBaseUrl = import.meta.env.VITE_PROVIDER_URL || 'https://rjpm-partner.netlify.app'
+  // Support environment variable or default to production partner portal (partner.rjpm.in)
+  const providerBaseUrl = getPartnerBaseUrl()
   const signupUrl = `${providerBaseUrl}/signup`
   const loginUrl = `${providerBaseUrl}/login`
 

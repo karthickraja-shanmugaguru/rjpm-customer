@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { useToast } from '../../context/ToastContext'
 import { ICONS } from '../../constants/icons'
+import { getPartnerBaseUrl } from '../../utils/urlUtils'
 
 export const Header = () => {
   const navigate = useNavigate()
@@ -107,7 +108,7 @@ export const Header = () => {
           </div>
 
           <a
-            href={import.meta.env.VITE_PROVIDER_URL || 'https://rjpm-partner.netlify.app'}
+            href={getPartnerBaseUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost header-desktop-only"
