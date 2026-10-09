@@ -35,9 +35,9 @@ export const ServiceCard = ({ service }) => {
   const handleWhatsApp = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    let rawPhone = (service.whatsapp || service.provider_phone || service.providerPhone || '9360226758').replace(/[^0-9]/g, '')
+    let rawPhone = String(service.whatsapp || service.service_whatsapp || service.phone || service.service_phone || service.provider_phone || service.providerPhone || '9360226758').replace(/[^0-9]/g, '')
     if (rawPhone.length === 10) rawPhone = `91${rawPhone}`
-    const msg = encodeURIComponent(`Hi, I am interested in booking "${serviceName}" on rjpm.in.`)
+    const msg = encodeURIComponent(`Hi, I am interested in booking "${serviceName}" via rjpm.in.`)
     window.open(`https://wa.me/${rawPhone}?text=${msg}`, '_blank')
   }
 

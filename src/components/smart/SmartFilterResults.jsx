@@ -624,7 +624,11 @@ export const SmartFilterResults = ({
                     </a>
 
                     <a
-                      href={`https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi ${item.provider_name}, I'm interested in your ${item.name} (${item.price_display}) through rjpm.in.`)}`}
+                      href={`https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                        item.provider_name && item.provider_name !== 'Google Search'
+                          ? `Hi ${item.provider_name}, I'm interested in your ${item.name} (${item.price_display}) via rjpm.in.`
+                          : `Hi, I am interested in booking "${item.name}" (${item.price_display}) via rjpm.in.`
+                      )}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn"

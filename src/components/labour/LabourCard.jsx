@@ -146,7 +146,8 @@ export const LabourCard = ({ item, onBook }) => {
             style={{ padding: '8px 12px', borderRadius: 20, fontSize: 13, fontWeight: 700 }}
             onClick={(e) => {
               e.stopPropagation()
-              window.location.href = 'tel:+919876543210'
+              const raw = String(item.phone || item.service_phone || '9360226758').replace(/\s+/g, '')
+              window.location.href = `tel:${raw}`
             }}
           >
             Call
@@ -157,8 +158,10 @@ export const LabourCard = ({ item, onBook }) => {
             style={{ padding: '8px 12px', borderRadius: 20, fontSize: 13, fontWeight: 700, background: '#16a34a', borderColor: '#16a34a', color: '#fff' }}
             onClick={(e) => {
               e.stopPropagation()
+              let raw = String(item.whatsapp || item.service_whatsapp || item.phone || item.service_phone || '9360226758').replace(/[^0-9]/g, '')
+              if (raw.length === 10) raw = `91${raw}`
               const msg = encodeURIComponent(`Hi, I am interested in booking "${item.name}" via rjpm.in.`)
-              window.open(`https://wa.me/919876543210?text=${msg}`, '_blank')
+              window.open(`https://wa.me/${raw}?text=${msg}`, '_blank')
             }}
           >
             WhatsApp

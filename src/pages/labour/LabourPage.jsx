@@ -124,15 +124,18 @@ export const LabourPage = () => {
     }
   }, [activeCategory, location])
 
-  const handleCall = (e, phone = '+919876543210') => {
+  const handleCall = (e, phone = '+919360226758') => {
     e.stopPropagation()
-    window.location.href = `tel:${phone}`
+    const clean = String(phone || '9360226758').replace(/\s+/g, '')
+    window.location.href = `tel:${clean}`
   }
 
-  const handleWhatsApp = (e, name = 'Staffing', provider = 'Provider') => {
+  const handleWhatsApp = (e, name = 'Staffing', phone = '9360226758') => {
     e.stopPropagation()
-    const msg = encodeURIComponent(`Hi ${provider}, I am interested in booking "${name}" via rjpm.in.`)
-    window.open(`https://wa.me/919876543210?text=${msg}`, '_blank')
+    let raw = String(phone || '9360226758').replace(/[^0-9]/g, '')
+    if (raw.length === 10) raw = `91${raw}`
+    const msg = encodeURIComponent(`Hi, I am interested in booking "${name}" via rjpm.in.`)
+    window.open(`https://wa.me/${raw}?text=${msg}`, '_blank')
   }
 
   // Ensure category filtering is strictly honored
@@ -470,7 +473,7 @@ export const LabourPage = () => {
                       <button
                         type="button"
                         className="btn btn-outline"
-                        onClick={(e) => handleCall(e)}
+                        onClick={(e) => handleCall(e, item.phone || item.service_phone || item.contact_phone)}
                         style={{
                           padding: '10px 12px',
                           borderRadius: 24,
@@ -488,7 +491,7 @@ export const LabourPage = () => {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        onClick={(e) => handleWhatsApp(e, itemName, providerName)}
+                        onClick={(e) => handleWhatsApp(e, itemName, item.whatsapp || item.service_whatsapp || item.phone || item.service_phone)}
                         style={{
                           padding: '10px 12px',
                           borderRadius: 24,
