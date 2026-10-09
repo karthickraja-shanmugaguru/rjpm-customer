@@ -18,7 +18,7 @@ export const DEFAULT_SERVICE_CATEGORIES = [
   'Seer Plates',
   'Kolam',
   'Priest & Rituals',
-  'Makeup',
+  'Makeup & Hair',
   'Mehendi',
   'Jewellery',
   'Sweets & Desserts',

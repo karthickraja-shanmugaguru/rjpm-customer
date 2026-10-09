@@ -6,7 +6,7 @@ import { useLanguage } from '../../context/LanguageContext'
 import { LABOUR_META } from '../../constants/categoryMeta'
 import { ICONS } from '../../constants/icons'
 import { RatingStars } from '../../components/common/RatingStars'
-import { RefreshCw, User, Check, Phone, MessageCircle } from 'lucide-react'
+import { RefreshCw, User, Check, Phone, MessageCircle, Globe } from 'lucide-react'
 
 const LABOUR_CATEGORIES = [
   { id: 'All Labour', name: 'All Labour' },
@@ -410,20 +410,35 @@ export const LabourPage = () => {
                     </h3>
 
                     <div className="package-provider" style={{ marginBottom: 6 }}>
-                      <Link
-                        to={`/providers/${providerId}`}
-                        onClick={(e) => e.stopPropagation()}
-                        style={{
-                          color: 'var(--primary)',
-                          fontWeight: 600,
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          textDecoration: 'none',
-                        }}
-                      >
-                        <User size={13} /> {providerName}
-                      </Link>
+                      {Boolean(item.provider_id && item.provider_claimed && item.provider_status === 'CLAIMED_ACTIVE') ? (
+                        <Link
+                          to={`/providers/${providerId}`}
+                          onClick={(e) => e.stopPropagation()}
+                          style={{
+                            color: 'var(--primary)',
+                            fontWeight: 600,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            textDecoration: 'none',
+                          }}
+                        >
+                          <User size={13} /> {providerName}
+                        </Link>
+                      ) : (
+                        <span
+                          style={{
+                            color: '#b45309',
+                            fontWeight: 600,
+                            fontSize: 12,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                          }}
+                        >
+                          <Globe size={13} /> {language === 'ta' ? 'கூகிள் தேடல் மூலம் வழங்கப்படுகிறது' : 'Provided by Google Search'}
+                        </span>
+                      )}
                     </div>
 
                     <div className="package-rating" style={{ marginBottom: 8 }}>

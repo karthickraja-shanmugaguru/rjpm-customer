@@ -373,17 +373,36 @@ export const ProviderDetailPage = () => {
                   </div>
 
                   <div id="providerMeta" className="provider-meta" style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', color: '#64748b', fontSize: 13 }}>
-                    <span
-                      style={{
-                        color: 'var(--success)',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {ICONS.verifiedBadge(14)} {provider.verified ? t('verifiedProvider', 'Verified Provider') : t('registeredProvider', 'Registered Provider')}
-                    </span>
+                    {provider.claimed === false || provider.providerStatus === 'SHADOW' ? (
+                      <span
+                        style={{
+                          color: '#b45309',
+                          background: '#fffbeb',
+                          border: '1px solid #fde68a',
+                          padding: '2px 8px',
+                          borderRadius: 6,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          fontWeight: 700,
+                          fontSize: 12,
+                        }}
+                      >
+                        🌐 {provider.attributionText || t('publicListingBadge', 'Public Listing • Powered by Google Search')}
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          color: 'var(--success)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {ICONS.verifiedBadge(14)} {t('verifiedPartner', 'Verified Business Partner')}
+                      </span>
+                    )}
                     <span>&middot;</span>
                     <span>{provider.location || provider.city || (language === 'ta' ? 'ராஜபாளையம்' : 'Rajapalayam')}</span>
                     <span>&middot;</span>
@@ -391,6 +410,43 @@ export const ProviderDetailPage = () => {
                     <span>&middot;</span>
                     <span>{eventsText} {t('eventsCompleted', 'completed')}</span>
                   </div>
+
+                  {(provider.claimed === false || provider.providerStatus === 'SHADOW') && (
+                    <div
+                      style={{
+                        marginTop: 12,
+                        padding: '10px 14px',
+                        background: '#f8fafc',
+                        border: '1px dashed #cbd5e1',
+                        borderRadius: 8,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        flexWrap: 'wrap',
+                        gap: 10,
+                      }}
+                    >
+                      <div style={{ fontSize: 12, color: '#475569' }}>
+                        <strong>{t('ownThisBusiness', 'Own this business?')}</strong> {t('claimInstruction', 'Claim this profile to update prices, photos, and chat with customers.')}
+                      </div>
+                      <a
+                        href={`https://partner.rjpm.in/signup?phone=${encodeURIComponent(provider.phone || '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 700,
+                          color: '#fff',
+                          background: '#2563eb',
+                          padding: '5px 12px',
+                          borderRadius: 6,
+                          textDecoration: 'none',
+                        }}
+                      >
+                        {t('claimListingBtn', 'Claim Profile Free')} &rarr;
+                      </a>
+                    </div>
+                  )}
 
                   <div className="rating-row" style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                     {Number(provider.rating || 0) > 0 && Number(provider.reviewCount ?? reviews.length ?? 0) > 0 ? (

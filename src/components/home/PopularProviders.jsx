@@ -45,9 +45,21 @@ export const PopularProviders = ({ providers = [], loading = false }) => {
         </div>
       ) : (
         <div className="vendor-grid">
-          {providers.slice(0, 4).map((vendor) => (
-            <VendorCard key={vendor.id} vendor={vendor} />
-          ))}
+          {(() => {
+            const seen = new Set()
+            const unique = providers.filter((p) => {
+              if (!p.claimed || p.providerStatus === 'SHADOW') return false
+              const clean = (p.phone || '').replace(/\D/g, '').slice(-10)
+              const nameKey = (p.businessName || '').toLowerCase().replace(/rjp[m]?/g, '').trim()
+              const key = clean || nameKey
+              if (seen.has(key)) return false
+              seen.add(key)
+              return true
+            })
+            return unique.slice(0, 4).map((vendor) => (
+              <VendorCard key={vendor.id} vendor={vendor} />
+            ))
+          })()}
         </div>
       )}
     </div>

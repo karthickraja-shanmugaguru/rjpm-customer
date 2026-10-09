@@ -129,6 +129,18 @@ export const CATEGORY_META = {
       </svg>
     ),
   },
+  'Makeup & Hair': {
+    color: '#db2777',
+    bg: 'linear-gradient(135deg,#fce7f3,#fdf2f8)',
+    svg: (s = 28) => (
+      <svg width={s} height={s} viewBox="0 0 32 32" fill="none" className="icon-svg">
+        <rect x="11" y="14" width="10" height="13" rx="2" fill="#f472b6" />
+        <path d="M13 14V8C13 6 15 5 16 5C17 5 19 6 19 8V14H13Z" fill="#db2777" />
+        <path d="M14 7L18 10" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" />
+        <rect x="10" y="22" width="12" height="3" fill="#be185d" />
+      </svg>
+    ),
+  },
   'Flowers': {
     color: '#16a34a',
     bg: 'linear-gradient(135deg,#dcfce7,#f0fdf4)',
@@ -738,6 +750,30 @@ export const LABOUR_META = {
         <circle cx="16" cy="10" r="5" fill="#6ee7b7" />
         <path d="M8 25C8 21 11.5 18 16 18C20.5 18 24 21 24 25" stroke="#059669" strokeWidth="2.8" strokeLinecap="round" />
         <circle cx="16" cy="10" r="2" fill="#ffffff" />
+      </svg>
+    ),
+  },
+  'Makeup & Hair': {
+    color: '#ec4899',
+    bg: 'linear-gradient(135deg,#fce7f3,#fdf2f8)',
+    svg: (s = 28) => (
+      <svg width={s} height={s} viewBox="0 0 32 32" fill="none" className="icon-svg">
+        <path d="M12 4C8.686 4 6 6.686 6 10C6 14.5 10 18 10 24H14C14 18 18 14.5 18 10C18 6.686 15.314 4 12 4Z" fill="#f472b6" />
+        <circle cx="22" cy="18" r="5" fill="#fbcfe8" />
+        <path d="M22 13V23M17 18H27" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="12" cy="10" r="2" fill="#ffffff" />
+      </svg>
+    ),
+  },
+  'Makeup': {
+    color: '#ec4899',
+    bg: 'linear-gradient(135deg,#fce7f3,#fdf2f8)',
+    svg: (s = 28) => (
+      <svg width={s} height={s} viewBox="0 0 32 32" fill="none" className="icon-svg">
+        <path d="M12 4C8.686 4 6 6.686 6 10C6 14.5 10 18 10 24H14C14 18 18 14.5 18 10C18 6.686 15.314 4 12 4Z" fill="#f472b6" />
+        <circle cx="22" cy="18" r="5" fill="#fbcfe8" />
+        <path d="M22 13V23M17 18H27" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="12" cy="10" r="2" fill="#ffffff" />
       </svg>
     ),
   },

@@ -22,6 +22,7 @@ import {
   CheckSquare,
   XCircle,
   Sliders,
+  Globe,
 } from 'lucide-react'
 import { useToast } from '../../context/ToastContext'
 import { useLanguage } from '../../context/LanguageContext'
@@ -37,6 +38,12 @@ export const PackageDetailPage = () => {
   const [pkg, setPkg] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  const isClaimedBusiness = Boolean(
+    (pkg?.is_claimed || pkg?.provider_claimed || pkg?.provider?.claimed) &&
+    (pkg?.provider_status === 'CLAIMED_ACTIVE' || pkg?.provider?.status === 'CLAIMED_ACTIVE') &&
+    (pkg?.provider_id || pkg?.provider?.id)
+  )
 
   useEffect(() => {
     const fetchPackage = async () => {
@@ -145,20 +152,39 @@ export const PackageDetailPage = () => {
                 <h2 style={{ fontSize: 15, fontWeight: 600, margin: '0 0 6px 0', color: 'var(--muted, #64748b)' }}>
                   {t('aboutThisPackage', 'About This Package')}
                 </h2>
-                <Link
-                  to={`/providers/${pkg.providerId || pkg.provider_id}`}
-                  style={{
-                    color: 'var(--primary)',
-                    textDecoration: 'none',
-                    fontWeight: 600,
-                    fontSize: 14,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                  }}
-                >
-                  {t('providedBy', 'Provided by')} {pkg.provider?.businessName || pkg.provider_name || (language === 'ta' ? 'சரிபார்க்கப்பட்ட நிறுவனம்' : 'Verified Provider')} &rarr;
-                </Link>
+                {isClaimedBusiness ? (
+                  <Link
+                    to={`/providers/${pkg.providerId || pkg.provider_id || pkg.provider?.id}`}
+                    style={{
+                      color: 'var(--primary)',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      fontSize: 14,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                    }}
+                  >
+                    {t('providedBy', 'Provided by')} {pkg.provider?.businessName || pkg.provider_name} &rarr;
+                  </Link>
+                ) : (
+                  <span
+                    style={{
+                      color: '#b45309',
+                      fontWeight: 600,
+                      fontSize: 13,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      background: '#fef3c7',
+                      padding: '4px 12px',
+                      borderRadius: 20,
+                      border: '1px solid #fde68a',
+                    }}
+                  >
+                    <Globe size={15} /> {language === 'ta' ? 'கூகிள் தேடல் மூலம் வழங்கப்படுகிறது' : 'Provided by Google Search'}
+                  </span>
+                )}
               </div>
 
               <div style={{ display: 'flex', gap: 8 }}>
@@ -561,15 +587,17 @@ export const PackageDetailPage = () => {
               <span>{t('callProvider', 'Call Provider')}</span>
             </a>
 
-            <div style={{ marginTop: 20, borderTop: '1px solid #f1f5f9', paddingTop: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                <ShieldCheck size={20} color="#1a73e8" />
-                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{t('eventlyGuarantee', 'rjpm.in Guarantee')}</span>
+            {isClaimedBusiness && (
+              <div style={{ marginTop: 20, borderTop: '1px solid #f1f5f9', paddingTop: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                  <ShieldCheck size={20} color="#1a73e8" />
+                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{t('eventlyGuarantee', 'rjpm.in Guarantee')}</span>
+                </div>
+                <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
+                  {t('packageGuaranteeDesc', 'Direct communication with the business owner, verified service listings, and milestone-based peace of mind.')}
+                </p>
               </div>
-              <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
-                {t('packageGuaranteeDesc', 'Direct communication with the business owner, verified service listings, and milestone-based peace of mind.')}
-              </p>
-            </div>
+            )}
           </div>
         </div>
       </div>

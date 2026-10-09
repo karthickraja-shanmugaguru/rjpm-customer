@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Share2,
   RefreshCw,
+  Globe,
 } from 'lucide-react'
 
 export const LabourDetailPage = () => {
@@ -101,8 +102,11 @@ export const LabourDetailPage = () => {
 
   const category = labour.type || labour.category || 'Food Servers'
   const meta = LABOUR_META[category] || LABOUR_META['Food Servers']
-  const providerName = labour.provider_name || labour.provider || 'HelpingHands Event Staffing'
-  const providerId = labour.provider_id || 12
+  const hasClaimedProvider = Boolean(labour.provider_id && labour.provider_claimed && labour.provider_status === 'CLAIMED_ACTIVE')
+  const providerName = labour.provider_name || labour.provider || 'Google Search'
+  const providerId = labour.provider_id || null
+  const contactPhone = labour.phone || labour.provider_phone || '919876543210'
+  const contactWhatsapp = labour.whatsapp || labour.provider_whatsapp || contactPhone
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -110,14 +114,15 @@ export const LabourDetailPage = () => {
   }
 
   const handleCall = () => {
-    window.location.href = 'tel:+919876543210'
+    window.location.href = `tel:${contactPhone.replace(/\s+/g, '')}`
   }
 
   const handleWhatsApp = () => {
+    const clean = contactWhatsapp.replace(/[^0-9]/g, '')
     const msg = encodeURIComponent(
-      `Hi ${providerName}, I am interested in booking "${labour.name}" via rjpm.in.`
+      `Hi, I am interested in booking "${labour.name}" via rjpm.in.`
     )
-    window.open(`https://wa.me/919876543210?text=${msg}`, '_blank')
+    window.open(`https://wa.me/${clean}?text=${msg}`, '_blank')
   }
 
   const coverImage = labour.coverImage || labour.cover_image
@@ -245,19 +250,36 @@ export const LabourDetailPage = () => {
             </p>
 
             <div style={{ marginTop: 22, display: 'flex', gap: 20, flexWrap: 'wrap', fontWeight: 600, fontSize: 14 }}>
-              <Link
-                to={`/providers/${providerId}`}
-                style={{
-                  color: 'var(--primary)',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  textDecoration: 'none',
-                }}
-              >
-                <Building2 size={18} /> {t('managedBy', 'Managed by')} {providerName}
-              </Link>
+              {hasClaimedProvider ? (
+                <Link
+                  to={`/providers/${providerId}`}
+                  style={{
+                    color: 'var(--primary)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Building2 size={18} /> {t('managedBy', 'Managed by')} {providerName}
+                </Link>
+              ) : (
+                <span
+                  style={{
+                    color: '#b45309',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    background: '#fef3c7',
+                    padding: '4px 12px',
+                    borderRadius: 20,
+                    border: '1px solid #fde68a',
+                  }}
+                >
+                  <Globe size={16} /> {language === 'ta' ? 'கூகிள் தேடல் மூலம் வழங்கப்படுகிறது' : 'Provided by Google Search'}
+                </span>
+              )}
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-2)' }}>
                 {ICONS.mapPin(18, 'var(--primary)')} {language === 'ta' ? `${location} மற்றும் அனைத்து பகுதிகளிலும் கிடைக்கும்` : `Available in ${location} · All Areas`}
               </span>
@@ -402,15 +424,17 @@ export const LabourDetailPage = () => {
               <Phone size={18} /> {t('callAgency', 'Call Agency')}
             </button>
 
-            <div style={{ marginTop: 24, borderTop: '1px solid #f1f5f9', paddingTop: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                <ShieldCheck size={20} color="#1a73e8" />
-                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{t('guaranteeTitle', 'rjpm.in Staffing Guarantee')}</span>
+            {hasClaimedProvider && (
+              <div style={{ marginTop: 24, borderTop: '1px solid #f1f5f9', paddingTop: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                  <ShieldCheck size={20} color="#1a73e8" />
+                  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{t('guaranteeTitle', 'rjpm.in Staffing Guarantee')}</span>
+                </div>
+                <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
+                  {t('guaranteeDesc', '100% verified crew with emergency replacements guaranteed within 60 minutes in case of absence.')}
+                </p>
               </div>
-              <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
-                {t('guaranteeDesc', '100% verified crew with emergency replacements guaranteed within 60 minutes in case of absence.')}
-              </p>
-            </div>
+            )}
           </div>
         </div>
       </div>

@@ -165,6 +165,14 @@ export const ServiceDetailPage = () => {
   }
 
   const provider = service.provider || {}
+  const isClaimedBusiness = Boolean(
+    (service.is_claimed || service.provider_claimed || provider.claimed) &&
+    (service.provider_status === 'CLAIMED_ACTIVE' || provider.status === 'CLAIMED_ACTIVE') &&
+    (service.provider_id || provider.id)
+  )
+
+  const contactPhone = service.phone || service.service_phone || provider.phone || ''
+  const contactWhatsapp = service.whatsapp || service.service_whatsapp || provider.whatsapp || contactPhone || '919876543210'
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -172,17 +180,16 @@ export const ServiceDetailPage = () => {
   }
 
   const handleCall = () => {
-    if (provider.phone) {
-      window.location.href = `tel:${provider.phone}`
+    if (contactPhone) {
+      window.location.href = `tel:${contactPhone.replace(/\s+/g, '')}`
     } else {
       showToast('Connecting call to provider...')
     }
   }
 
   const handleWhatsApp = () => {
-    const phone = provider.whatsapp || provider.phone || '919876543210'
-    const cleanPhone = phone.replace(/[^0-9]/g, '')
-    const msg = encodeURIComponent(`Hi ${provider.businessName || ''}, I am interested in booking "${service.title}" via rjpm.in.`)
+    const cleanPhone = contactWhatsapp.replace(/[^0-9]/g, '')
+    const msg = encodeURIComponent(`Hi, I am interested in booking "${service.title}" via rjpm.in.`)
     window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank')
   }
 
@@ -355,19 +362,36 @@ export const ServiceDetailPage = () => {
             </p>
 
             <div style={{ marginTop: 22, display: 'flex', gap: 20, flexWrap: 'wrap', fontWeight: 600, fontSize: 14 }}>
-              <Link
-                to={`/providers/${provider.id || service.providerId}`}
-                style={{
-                  color: 'var(--primary)',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  textDecoration: 'none',
-                }}
-              >
-                <Store size={18} /> {t('providedBy', 'Provided by')} {provider.businessName || (language === 'ta' ? 'சரிபார்க்கப்பட்ட நிறுவனம்' : 'Verified Vendor')}
-              </Link>
+              {isClaimedBusiness ? (
+                <Link
+                  to={`/providers/${provider.id || service.providerId}`}
+                  style={{
+                    color: 'var(--primary)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Store size={18} /> {t('providedBy', 'Provided by')} {provider.businessName}
+                </Link>
+              ) : (
+                <span
+                  style={{
+                    color: '#b45309',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    background: '#fef3c7',
+                    padding: '4px 12px',
+                    borderRadius: 20,
+                    border: '1px solid #fde68a',
+                  }}
+                >
+                  <Globe size={16} /> {language === 'ta' ? 'கூகிள் தேடல் மூலம் வழங்கப்படுகிறது' : 'Provided by Google Search'}
+                </span>
+              )}
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-2)' }}>
                 <MapPin size={18} color="var(--primary)" /> {displayLocation}
               </span>
@@ -667,8 +691,7 @@ export const ServiceDetailPage = () => {
               )}
             </div>
 
-            {/* User Star Rating Input */}
-            {provider?.id && (
+            {provider?.id && isClaimedBusiness && (
               <div style={{ marginBottom: 16 }}>
                 <StarRatingInput
                   providerId={provider.id}
@@ -765,15 +788,17 @@ export const ServiceDetailPage = () => {
               </a>
             )}
 
-            <div style={{ marginTop: 24, borderTop: '1px solid #f1f5f9', paddingTop: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <ShieldCheck size={18} color="#1a73e8" />
-                <strong style={{ fontSize: 13 }}>{t('verifiedListing', 'Verified rjpm.in Listing')}</strong>
+            {isClaimedBusiness && (
+              <div style={{ marginTop: 24, borderTop: '1px solid #f1f5f9', paddingTop: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <ShieldCheck size={18} color="#1a73e8" />
+                  <strong style={{ fontSize: 13 }}>{t('verifiedPartner', 'Verified Business Partner')}</strong>
+                </div>
+                <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
+                  {t('directPricingAssurance', 'Direct pricing with no middleman markup. 100% money-back booking assurance.')}
+                </p>
               </div>
-              <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
-                {t('directPricingAssurance', 'Direct pricing with no middleman markup. 100% money-back booking assurance.')}
-              </p>
-            </div>
+            )}
           </div>
         </div>
       </div>
