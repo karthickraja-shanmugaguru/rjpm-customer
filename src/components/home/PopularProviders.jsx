@@ -16,7 +16,7 @@ export const PopularProviders = ({ providers = [], loading = false }) => {
             {t('popularProvidersSub', 'Top rated event companies and experienced vendors')}
           </p>
         </div>
-        <Link to="/explore?category=All" className="link-button">
+        <Link to="/explore?category=All&type=vendors" className="link-button">
           {t('viewAll', 'View all')} {ICONS.chevronRight(16, 'var(--primary)')}
         </Link>
       </div>
