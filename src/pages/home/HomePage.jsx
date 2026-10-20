@@ -13,13 +13,19 @@ import { SmartFilterModal } from '../../components/smart/SmartFilterModal'
 import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
 import { ProviderPromotionBanner } from '../../components/home/ProviderPromotionBanner'
 import { CategoryCarousel } from '../../components/home/CategoryCarousel'
+import { clientCache } from '../../utils/clientCache'
 
 export const HomePage = () => {
-  const [packages, setPackages] = useState([])
-  const [providers, setProviders] = useState([])
-  const [services, setServices] = useState([])
-  const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true)
+  const cachedPkgs = clientCache.get('home_packages')
+  const cachedProvs = clientCache.get('home_providers')
+  const cachedCats = clientCache.get('home_categories')
+  const cachedSvcs = clientCache.get('home_services')
+
+  const [packages, setPackages] = useState(cachedPkgs || [])
+  const [providers, setProviders] = useState(cachedProvs || [])
+  const [services, setServices] = useState(cachedSvcs || [])
+  const [categories, setCategories] = useState(cachedCats || [])
+  const [loading, setLoading] = useState(!cachedProvs && !cachedPkgs)
 
   // Smart Filter State for Home Page
   const [isSmartModalOpen, setIsSmartModalOpen] = useState(false)
@@ -29,7 +35,11 @@ export const HomePage = () => {
     let isMounted = true
 
     const loadHomeData = async () => {
-      setLoading(true)
+      // Only show full loading skeleton if no cached data exists
+      if (!clientCache.has('home_providers') && !clientCache.has('home_packages')) {
+        setLoading(true)
+      }
+
       try {
         const [pkgRes, provRes, catRes, svcRes] = await Promise.allSettled([
           packageService.getPackages(),
@@ -42,28 +52,29 @@ export const HomePage = () => {
 
         if (pkgRes.status === 'fulfilled' && pkgRes.value?.data) {
           setPackages(pkgRes.value.data)
-        } else {
+          clientCache.set('home_packages', pkgRes.value.data)
+        } else if (!cachedPkgs) {
           setPackages([])
         }
 
         if (provRes.status === 'fulfilled' && provRes.value?.data) {
           setProviders(provRes.value.data)
-        } else {
+          clientCache.set('home_providers', provRes.value.data)
+        } else if (!cachedProvs) {
           setProviders([])
         }
 
         if (catRes.status === 'fulfilled' && catRes.value?.data?.length) {
           setCategories(catRes.value.data)
+          clientCache.set('home_categories', catRes.value.data)
         }
 
         if (svcRes.status === 'fulfilled' && svcRes.value?.data?.length) {
           setServices(svcRes.value.data)
+          clientCache.set('home_services', svcRes.value.data)
         }
       } catch {
-        if (isMounted) {
-          setPackages([])
-          setProviders([])
-        }
+        // Keep cached data on network error
       } finally {
         if (isMounted) setLoading(false)
       }

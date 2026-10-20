@@ -1421,31 +1421,36 @@ img {
 
 .category-sidebar {
   border-right: 1px solid var(--border);
-  padding: 10px 0;
+  padding: 10px 0 40px 0;
   position: sticky;
   top: 73px;
   align-self: start;
+  height: calc(100vh - 90px);
   max-height: calc(100vh - 90px);
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-color: #94a3b8 #f1f5f9;
 }
 
 .category-sidebar::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 .category-sidebar::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f8fafc;
+  border-radius: 4px;
 }
 
 .category-sidebar::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #94a3b8;
   border-radius: 4px;
 }
 
 .category-sidebar::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #64748b;
 }
 
 .sidebar-item {
@@ -2523,8 +2528,28 @@ textarea.form-control {
   }
 
   .category-sidebar {
-    top: 49px !important;
-    padding: 4px 0 !important;
+    position: sticky !important;
+    top: 50px !important;
+    align-self: start !important;
+    padding: 6px 0 100px 0 !important;
+    height: calc(100dvh - 110px) !important;
+    max-height: calc(100dvh - 110px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #cbd5e1 transparent !important;
+  }
+
+  .category-sidebar::-webkit-scrollbar {
+    width: 3px !important;
+  }
+
+  .category-sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 3px !important;
   }
 
   .sidebar-item {

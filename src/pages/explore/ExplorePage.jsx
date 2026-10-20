@@ -12,6 +12,7 @@ import { useLanguage } from '../../context/LanguageContext'
 import { SmartFilterModal } from '../../components/smart/SmartFilterModal'
 import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
 import { Search, SlidersHorizontal, AlertCircle, RefreshCw, MessageCircle } from 'lucide-react'
+import { clientCache } from '../../utils/clientCache'
 
 export const ExplorePage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -27,10 +28,13 @@ export const ExplorePage = () => {
   const [activeFilter, setActiveFilter] = useState('near') // 'near', 'price', 'rating', 'verified'
   const [viewType, setViewType] = useState(typeParam === 'vendors' ? 'vendors' : 'services')
 
-  const [services, setServices] = useState([])
-  const [providers, setProviders] = useState([])
-  const [allPackages, setAllPackages] = useState([])
-  const [loading, setLoading] = useState(true)
+  const exploreCacheKey = `explore_${activeCategory}_${searchQuery}_${activeFilter}_${location}`
+  const cachedExplore = clientCache.get(exploreCacheKey)
+
+  const [services, setServices] = useState(cachedExplore?.sData || [])
+  const [providers, setProviders] = useState(cachedExplore?.pData || [])
+  const [allPackages, setAllPackages] = useState(cachedExplore?.pkgData || [])
+  const [loading, setLoading] = useState(!cachedExplore)
   const [error, setError] = useState(null)
 
   // Smart Filter State
@@ -49,7 +53,16 @@ export const ExplorePage = () => {
   }, [searchParams])
 
   const fetchData = async () => {
-    setLoading(true)
+    const cacheKey = `explore_${activeCategory}_${searchQuery}_${activeFilter}_${location}`
+    const cached = clientCache.get(cacheKey)
+    if (cached) {
+      setServices(cached.sData || [])
+      setProviders(cached.pData || [])
+      setAllPackages(cached.pkgData || [])
+      setLoading(false)
+    } else {
+      setLoading(true)
+    }
     setError(null)
     try {
       const filters = {
@@ -78,8 +91,11 @@ export const ExplorePage = () => {
       setServices(sData)
       setProviders(pData)
       setAllPackages(pkgData)
+      clientCache.set(cacheKey, { sData, pData, pkgData })
     } catch (err) {
-      setError(err?.message || 'Failed to load services.')
+      if (!cached) {
+        setError(err?.message || 'Failed to load services.')
+      }
     } finally {
       setLoading(false)
     }
@@ -285,6 +301,18 @@ export const ExplorePage = () => {
                     : `No verified services currently match your selection in ${location}. Try resetting your filters or exploring another category.`}
                 </p>
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+                  {providers.length > 0 && (
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{ background: '#059669', borderColor: '#059669' }}
+                      onClick={() => setViewType('vendors')}
+                    >
+                      {language === 'ta'
+                        ? `இப்பிரிவில் உள்ள வழங்குநர்களை காண்க (${providers.length})`
+                        : `View Available Providers (${providers.length}) →`}
+                    </button>
+                  )}
                   <button
                     className="btn btn-primary"
                     onClick={() => {
@@ -342,6 +370,18 @@ export const ExplorePage = () => {
                   : `No registered vendors found matching this criteria in ${location}. Try viewing all providers or explore related categories.`}
               </p>
               <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+                {services.length > 0 && (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    style={{ background: '#059669', borderColor: '#059669' }}
+                    onClick={() => setViewType('services')}
+                  >
+                    {language === 'ta'
+                      ? `இப்பிரிவில் உள்ள சேவைகளை காண்க (${services.length})`
+                      : `View Available Services (${services.length}) →`}
+                  </button>
+                )}
                 <button
                   className="btn btn-primary"
                   onClick={() => {
