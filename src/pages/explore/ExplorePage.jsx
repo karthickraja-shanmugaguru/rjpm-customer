@@ -252,12 +252,12 @@ export const ExplorePage = () => {
           )}
 
           {/* Content Loading / Error / Empty / Grid */}
-          {loading ? (
+          {loading && services.length === 0 && providers.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--muted)' }}>
               <RefreshCw size={32} className="spin-animation" style={{ margin: '0 auto 12px' }} />
               <p style={{ fontSize: 15 }}>Finding verified event services in {location}...</p>
             </div>
-          ) : error ? (
+          ) : error && services.length === 0 && providers.length === 0 ? (
             <div
               style={{
                 padding: '40px 20px',

@@ -117,6 +117,8 @@ const getYouTubeEmbedUrl = (url) => {
   return match && match[2].length === 11 ? `https://www.youtube.com/embed/${match[2]}` : null
 }
 
+import { clientCache } from '../../utils/clientCache'
+
 export const ServiceDetailPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -124,18 +126,23 @@ export const ServiceDetailPage = () => {
   const { language, setLanguage, t } = useLanguage()
   const { isServiceFavorited, toggleFavoriteService } = useFavorites()
 
-  const [service, setService] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const cachedInitial = clientCache.getServiceById(id)
+  const [service, setService] = useState(cachedInitial || null)
+  const [loading, setLoading] = useState(!cachedInitial)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchService = async () => {
-      setLoading(true)
+      if (!cachedInitial) setLoading(true)
       try {
         const res = await serviceService.getService(id)
-        setService(res.data)
+        if (res?.data) {
+          setService(res.data)
+        }
       } catch (err) {
-        setError(err?.message || 'Service not found.')
+        if (!cachedInitial) {
+          setError(err?.message || 'Service not found.')
+        }
       } finally {
         setLoading(false)
       }

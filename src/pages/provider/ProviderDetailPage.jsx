@@ -125,6 +125,8 @@ const SOCIAL_PLATFORMS = {
   },
 }
 
+import { clientCache } from '../../utils/clientCache'
+
 export const ProviderDetailPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -133,8 +135,9 @@ export const ProviderDetailPage = () => {
   const { language, setLanguage, t } = useLanguage()
   const { user } = useAuth()
 
-  const [provider, setProvider] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const cachedInitial = clientCache.getProviderById(id)
+  const [provider, setProvider] = useState(cachedInitial || null)
+  const [loading, setLoading] = useState(!cachedInitial)
   const [error, setError] = useState(null)
 
   const [activeTab, setActiveTab] = useState('All')
@@ -143,12 +146,16 @@ export const ProviderDetailPage = () => {
 
   useEffect(() => {
     const fetchProvider = async () => {
-      setLoading(true)
+      if (!cachedInitial) setLoading(true)
       try {
         const res = await providerService.getProvider(id)
-        setProvider(res.data)
+        if (res?.data) {
+          setProvider(res.data)
+        }
       } catch (err) {
-        setError(err?.message || 'Provider not found.')
+        if (!cachedInitial) {
+          setError(err?.message || 'Provider not found.')
+        }
       } finally {
         setLoading(false)
       }
