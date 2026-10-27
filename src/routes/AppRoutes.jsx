@@ -1,6 +1,7 @@
-import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { CustomerLayout } from '../layouts/CustomerLayout'
+import { initGA, trackPageView } from '../utils/analytics'
 
 // Pages
 import { HomePage } from '../pages/home/HomePage'
@@ -18,6 +19,16 @@ import { LoginPage } from '../pages/auth/LoginPage'
 import { NotFoundPage } from '../pages/common/NotFoundPage'
 
 export const AppRoutes = () => {
+  const routerLocation = useLocation()
+
+  useEffect(() => {
+    initGA()
+  }, [])
+
+  useEffect(() => {
+    trackPageView(routerLocation.pathname + routerLocation.search)
+  }, [routerLocation])
+
   return (
     <Routes>
       <Route element={<CustomerLayout />}>
