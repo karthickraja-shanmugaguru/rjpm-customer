@@ -19,11 +19,16 @@ export const Hero = ({ onOpenSmartFilter }) => {
   return (
     <div className="hero">
       <div>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#eff6ff', color: '#1d4ed8', padding: '5px 12px', borderRadius: '16px', fontSize: '12px', fontWeight: 700, marginBottom: 12, border: '1px solid #bfdbfe' }}>
+          <Sparkles size={14} />
+          <span>RJPM – Namma Rajapalayam, Namma Businesses</span>
+        </div>
         <h1>
-          {t('heroTitle', 'Plan your perfect')} <span>{t('heroEvent', 'event.')}</span>
+          {language === 'ta' ? 'ராஜபாளையத்தின் சிறந்த ' : 'Discover Local Businesses & Event Services in '}
+          <span>{language === 'ta' ? 'நிகழ்வு சேவைகள்' : 'Rajapalayam'}</span>
         </h1>
         <p>
-          {t('heroSubtitle', 'Find catering, decoration, photography, mehendi, jewellery, music and everything else you need — all from verified local providers.')}
+          {t('heroSubtitle', 'Find catering, wedding mandapams, stage decoration, photography, mehendi, and celebration packages — all from verified local providers in Rajapalayam.')}
         </p>
 
         <form onSubmit={handleSearch} className="hero-search">

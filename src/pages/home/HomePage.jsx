@@ -14,8 +14,16 @@ import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
 import { ProviderPromotionBanner } from '../../components/home/ProviderPromotionBanner'
 import { CategoryCarousel } from '../../components/home/CategoryCarousel'
 import { clientCache } from '../../utils/clientCache'
+import { useSEO } from '../../utils/useSEO'
 
 export const HomePage = () => {
+  useSEO({
+    title: 'RJPM — Event Services Marketplace in Rajapalayam',
+    description: 'Find & book top verified event services in Rajapalayam (RJPM). Compare catering, mandapams, stage decorations, and celebration packages with transparent pricing.',
+    keywords: 'Rajapalayam, RJPM, event services Rajapalayam, wedding catering Rajapalayam, mandapam booking Rajapalayam, stage decoration Rajapalayam',
+    canonical: 'https://rjpm.in/',
+  })
+
   const cachedPkgs = clientCache.get('home_packages')
   const cachedProvs = clientCache.get('home_providers')
   const cachedCats = clientCache.get('home_categories')

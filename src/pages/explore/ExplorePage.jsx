@@ -13,6 +13,7 @@ import { SmartFilterModal } from '../../components/smart/SmartFilterModal'
 import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
 import { Search, SlidersHorizontal, AlertCircle, RefreshCw, MessageCircle } from 'lucide-react'
 import { clientCache } from '../../utils/clientCache'
+import { useSEO } from '../../utils/useSEO'
 
 export const ExplorePage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -27,6 +28,14 @@ export const ExplorePage = () => {
   const [searchQuery, setSearchQuery] = useState(initialSearch)
   const [activeFilter, setActiveFilter] = useState('near') // 'near', 'price', 'rating', 'verified'
   const [viewType, setViewType] = useState(typeParam === 'vendors' ? 'vendors' : 'services')
+
+  useSEO({
+    title: activeCategory === 'All'
+      ? `Event Services & Vendors in ${location || 'Rajapalayam'}`
+      : `${activeCategory} Services in ${location || 'Rajapalayam'}`,
+    description: `Find & compare verified ${activeCategory === 'All' ? 'event services, mandapams, catering, and decorators' : activeCategory} in ${location || 'Rajapalayam'} (RJPM). Transparent pricing and direct contact.`,
+    keywords: `${activeCategory}, ${location || 'Rajapalayam'}, RJPM, event services ${location || 'Rajapalayam'}`,
+  })
 
   const exploreCacheKey = `explore_${activeCategory}_${searchQuery}_${activeFilter}_${location}`
   const cachedExplore = clientCache.get(exploreCacheKey)

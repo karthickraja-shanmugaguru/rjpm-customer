@@ -11,6 +11,7 @@ import { useFavorites } from '../../context/FavoritesContext'
 import { SmartFilterModal } from '../../components/smart/SmartFilterModal'
 import { SmartFilterResults } from '../../components/smart/SmartFilterResults'
 import { RefreshCw, User, Check, Sparkles } from 'lucide-react'
+import { useSEO } from '../../utils/useSEO'
 
 const PACKAGE_CATEGORIES = [
   { id: 'All Packages', name: 'All Packages' },
@@ -300,6 +301,15 @@ export const PackagesPage = () => {
 
   const currentEventType = searchParams.get('eventType') || 'All Packages'
   const [activeCategory, setActiveCategory] = useState(currentEventType)
+
+  useSEO({
+    title: activeCategory === 'All Packages'
+      ? `Event & Wedding Packages in ${location || 'Rajapalayam'}`
+      : `${activeCategory} Packages in ${location || 'Rajapalayam'}`,
+    description: `Explore all-in-one celebration and wedding packages in ${location || 'Rajapalayam'} (RJPM). Tailored catering, mandapam, stage decor, and photography with transparent package pricing.`,
+    keywords: `wedding packages ${location || 'Rajapalayam'}, event packages RJPM, celebration packages Rajapalayam, mandapam catering bundle`,
+  })
+
   const [activeFilter, setActiveFilter] = useState('')
   const [packages, setPackages] = useState([])
   const [services, setServices] = useState([])

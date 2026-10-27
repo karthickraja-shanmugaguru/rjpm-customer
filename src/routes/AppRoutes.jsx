@@ -15,6 +15,7 @@ import { BookingsPage } from '../pages/booking/BookingsPage'
 import { FavoritesPage } from '../pages/favorites/FavoritesPage'
 import { ProfilePage } from '../pages/profile/ProfilePage'
 import { LoginPage } from '../pages/auth/LoginPage'
+import { NotFoundPage } from '../pages/common/NotFoundPage'
 
 export const AppRoutes = () => {
   return (
@@ -22,17 +23,19 @@ export const AppRoutes = () => {
       <Route element={<CustomerLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/services" element={<ExplorePage />} />
         <Route path="/services/:id" element={<ServiceDetailPage />} />
         <Route path="/packages" element={<PackagesPage />} />
         <Route path="/packages/:id" element={<PackageDetailPage />} />
+        <Route path="/providers" element={<ExplorePage />} />
+        <Route path="/providers/:id" element={<ProviderDetailPage />} />
         <Route path="/labour" element={<LabourPage />} />
         <Route path="/labour/:id" element={<LabourDetailPage />} />
-        <Route path="/providers/:id" element={<ProviderDetailPage />} />
         <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   )

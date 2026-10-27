@@ -1,0 +1,16 @@
+{
+  "short_name": "RJPM",
+  "name": "RJPM — Rajapalayam Event Services Marketplace",
+  "description": "Find & book verified event services, catering, mandapams, and decorations in Rajapalayam.",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64 192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

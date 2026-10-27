@@ -126,6 +126,7 @@ const SOCIAL_PLATFORMS = {
 }
 
 import { clientCache } from '../../utils/clientCache'
+import { useSEO } from '../../utils/useSEO'
 
 export const ProviderDetailPage = () => {
   const { id } = useParams()
@@ -139,6 +140,42 @@ export const ProviderDetailPage = () => {
   const [provider, setProvider] = useState(cachedInitial || null)
   const [loading, setLoading] = useState(!cachedInitial)
   const [error, setError] = useState(null)
+
+  useSEO({
+    title: provider ? `${provider.businessName} - Event Specialist in Rajapalayam` : 'Provider Profile',
+    description: provider?.about?.slice(0, 160) || `Verified business partner ${provider?.businessName || ''} in Rajapalayam (RJPM). View reviews, services, and contact directly.`,
+    keywords: `${provider?.businessName || ''}, ${provider?.category || ''}, Rajapalayam, RJPM, event vendor Rajapalayam`,
+    ogImage: provider?.coverImage,
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: provider?.category || 'Vendors', path: `/explore?view=vendors&category=${encodeURIComponent(provider?.category || 'All')}` },
+      { name: provider?.businessName || 'Business Profile', path: `/providers/${id}` },
+    ],
+    schema: provider ? {
+      '@type': 'LocalBusiness',
+      'name': provider.businessName,
+      'description': provider.about || `${provider.businessName} provides verified event services in Rajapalayam.`,
+      'telephone': provider.phone || '',
+      'image': provider.coverImage || '',
+      'address': {
+        '@type': 'PostalAddress',
+        'addressLocality': 'Rajapalayam',
+        'addressRegion': 'Tamil Nadu',
+        'postalCode': '626117',
+        'addressCountry': 'IN',
+      },
+      'geo': {
+        '@type': 'GeoCoordinates',
+        'latitude': 9.4533,
+        'longitude': 77.5544,
+      },
+      'aggregateRating': provider.rating ? {
+        '@type': 'AggregateRating',
+        'ratingValue': provider.rating,
+        'reviewCount': provider.reviewCount || 1,
+      } : undefined,
+    } : null,
+  })
 
   const [activeTab, setActiveTab] = useState('All')
   const [isModalOpen, setIsModalOpen] = useState(false)

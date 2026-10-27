@@ -118,6 +118,7 @@ const getYouTubeEmbedUrl = (url) => {
 }
 
 import { clientCache } from '../../utils/clientCache'
+import { useSEO } from '../../utils/useSEO'
 
 export const ServiceDetailPage = () => {
   const { id } = useParams()
@@ -130,6 +131,42 @@ export const ServiceDetailPage = () => {
   const [service, setService] = useState(cachedInitial || null)
   const [loading, setLoading] = useState(!cachedInitial)
   const [error, setError] = useState(null)
+
+  useSEO({
+    title: service ? `${service.title || service.name} in Rajapalayam` : 'Event Service Details',
+    description: service?.description?.slice(0, 160) || `Verified ${service?.category || ''} service in Rajapalayam. Compare prices and book directly with local specialists on RJPM.in.`,
+    keywords: `${service?.category || ''}, ${service?.title || ''}, Rajapalayam, RJPM, event service Rajapalayam`,
+    ogImage: service?.coverImage || service?.cover_image,
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: service?.category || 'Services', path: `/explore?category=${encodeURIComponent(service?.category || 'All')}` },
+      { name: service?.title || service?.name || 'Service Details', path: `/services/${id}` },
+    ],
+    schema: service ? {
+      '@type': 'Service',
+      'name': service.title || service.name,
+      'description': service.description || '',
+      'provider': {
+        '@type': 'LocalBusiness',
+        'name': service.provider_name || service.provider?.businessName || 'Verified Rajapalayam Vendor',
+        'address': {
+          '@type': 'PostalAddress',
+          'addressLocality': 'Rajapalayam',
+          'addressRegion': 'Tamil Nadu',
+          'addressCountry': 'IN',
+        },
+      },
+      'areaServed': {
+        '@type': 'City',
+        'name': service.location || 'Rajapalayam',
+      },
+      'offers': {
+        '@type': 'Offer',
+        'price': service.price || service.price_amount || '100',
+        'priceCurrency': 'INR',
+      },
+    } : null,
+  })
 
   useEffect(() => {
     const fetchService = async () => {

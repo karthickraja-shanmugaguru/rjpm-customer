@@ -25,8 +25,9 @@ import {
   Globe,
 } from 'lucide-react'
 import { useToast } from '../../context/ToastContext'
-import { useLanguage } from '../../context/LanguageContext'
 import { useFavorites } from '../../context/FavoritesContext'
+import { clientCache } from '../../utils/clientCache'
+import { useSEO } from '../../utils/useSEO'
 
 export const PackageDetailPage = () => {
   const { id } = useParams()
@@ -35,9 +36,34 @@ export const PackageDetailPage = () => {
   const { language, setLanguage, t } = useLanguage()
   const { isPackageFavorited, toggleFavoritePackage } = useFavorites()
 
-  const [pkg, setPkg] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const cachedInitial = clientCache.getPackageById(id)
+  const [pkg, setPkg] = useState(cachedInitial || null)
+  const [loading, setLoading] = useState(!cachedInitial)
   const [error, setError] = useState(null)
+
+  useSEO({
+    title: pkg ? `${pkg.name} - Celebration Package in Rajapalayam` : 'Package Details',
+    description: pkg?.description?.slice(0, 160) || `All-in-one celebration package in Rajapalayam (RJPM). Included services: ${pkg?.includes || ''}.`,
+    keywords: `${pkg?.name || ''}, ${pkg?.event_type || ''}, Rajapalayam package, wedding package RJPM`,
+    ogImage: pkg?.coverImage || pkg?.cover_image,
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Packages', path: '/packages' },
+      { name: pkg?.name || 'Package Details', path: `/packages/${id}` },
+    ],
+    schema: pkg ? {
+      '@type': 'Product',
+      'name': pkg.name,
+      'description': pkg.description || `Celebration package in Rajapalayam including ${pkg.includes || ''}`,
+      'image': pkg.coverImage || pkg.cover_image || '',
+      'offers': {
+        '@type': 'Offer',
+        'price': pkg.price_amount || 50000,
+        'priceCurrency': 'INR',
+        'availability': 'https://schema.org/InStock',
+      },
+    } : null,
+  })
 
   const isClaimedBusiness = Boolean(
     (pkg?.is_claimed || pkg?.provider_claimed || pkg?.provider?.claimed) &&
@@ -47,12 +73,16 @@ export const PackageDetailPage = () => {
 
   useEffect(() => {
     const fetchPackage = async () => {
-      setLoading(true)
+      if (!cachedInitial) setLoading(true)
       try {
         const res = await packageService.getPackage(id)
-        setPkg(res.data)
+        if (res?.data) {
+          setPkg(res.data)
+        }
       } catch (err) {
-        setError(err?.message || 'Package not found.')
+        if (!cachedInitial) {
+          setError(err?.message || 'Package not found.')
+        }
       } finally {
         setLoading(false)
       }
