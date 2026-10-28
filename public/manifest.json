@@ -1,16 +1,30 @@
 {
+  "id": "/",
+  "name": "RJPM - Namma Rajapalayam",
   "short_name": "RJPM",
-  "name": "RJPM — Rajapalayam Event Services Marketplace",
-  "description": "Find & book verified event services, catering, mandapams, and decorations in Rajapalayam.",
+  "description": "Discover local businesses, services and event professionals in Rajapalayam, Tamil Nadu.",
   "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
-  "display": "standalone",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "64x64 192x192 512x512",
-      "type": "image/svg+xml"
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

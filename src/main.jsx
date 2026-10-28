@@ -8,3 +8,12 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
+
+// Register Service Worker for PWA / TWA support
+if ('serviceWorker' in navigator && !import.meta.env.DEV) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.warn('Service Worker registration failed:', err)
+    })
+  })
+}
